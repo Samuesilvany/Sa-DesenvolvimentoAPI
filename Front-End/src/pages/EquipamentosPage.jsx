@@ -26,7 +26,7 @@ export default function EquipamentosPage() {
   const [editingId, setEditingId] = useState(null);
 
   const formPayload = useMemo(() => {
-    // mantém simples: apenas normaliza números
+    
     return {
       numero_serie: form.numero_serie,
       modelo: form.modelo,
@@ -55,7 +55,7 @@ export default function EquipamentosPage() {
 
   useEffect(() => {
     fetchAll();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, []);
 
   function startEdit(item) {
