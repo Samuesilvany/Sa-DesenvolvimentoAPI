@@ -21,6 +21,7 @@ export default function EquipamentosPage() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   const [form, setForm] = useState(initialForm);
   const [editingId, setEditingId] = useState(null);
@@ -108,6 +109,7 @@ export default function EquipamentosPage() {
 
       resetForm();
       await fetchAll();
+      setSuccess(editingId ? 'Equipamento atualizado com sucesso!' : 'Equipamento criado com sucesso!');
     } catch (e2) {
       setError(String(e2?.message ?? e2));
     } finally {
@@ -127,6 +129,7 @@ export default function EquipamentosPage() {
         throw new Error(`Falha ao remover: ${res.status} ${msg}`);
       }
       await fetchAll();
+      setSuccess('Equipamento removido com sucesso!');
       if (editingId === id) resetForm();
     } catch (e) {
       setError(String(e?.message ?? e));
@@ -135,10 +138,17 @@ export default function EquipamentosPage() {
     }
   }
 
+  useEffect(() => {
+    if (!success) return;
+    const timer = setTimeout(() => setSuccess(''), 4000);
+    return () => clearTimeout(timer);
+  }, [success]);
+
   return (
     <div className="eq-wrap">
       <h1>Equipamentos</h1>
 
+      {success ? <div className="eq-success">{success}</div> : null}
       {error ? <div className="eq-error">{error}</div> : null}
 
       <div className="eq-grid">

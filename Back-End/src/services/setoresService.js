@@ -1,13 +1,13 @@
 import { pool } from '../config/db.js';
 
-class EquipamentosService {
+class SetoresService {
   async getAll() {
-    const res = await pool.query('SELECT * FROM equipamentos ORDER BY id');
+    const res = await pool.query('SELECT * FROM setores ORDER BY id');
     return res.rows;
   }
 
   async getById(id) {
-    const res = await pool.query('SELECT * FROM equipamentos WHERE id = $1', [id]);
+    const res = await pool.query('SELECT * FROM setores WHERE id = $1', [id]);
     return res.rows[0] ?? null;
   }
 
@@ -48,7 +48,7 @@ class EquipamentosService {
 
     const { columns, placeholders, values } = this._buildInsertQuery(payload);
 
-    const sql = `INSERT INTO equipamentos (${columns})
+    const sql = `INSERT INTO setores (${columns})
                  VALUES (${placeholders})
                  RETURNING *`;
 
@@ -71,7 +71,7 @@ class EquipamentosService {
 
     const { setClause, values } = this._buildUpdateQuery(id, payload);
 
-    const sql = `UPDATE equipamentos
+    const sql = `UPDATE setores
                  SET ${setClause}
                  WHERE id = $${values.length}
                  RETURNING *`;
@@ -81,12 +81,10 @@ class EquipamentosService {
   }
 
   async remove(id) {
-    const res = await pool.query('DELETE FROM equipamentos WHERE id = $1 RETURNING *', [id]);
+    const res = await pool.query('DELETE FROM setores WHERE id = $1 RETURNING *', [id]);
     return res.rows[0] ?? null;
   }
 }
 
-export const equipamentosService = new EquipamentosService();
-
-
+export const setoresService = new SetoresService();
 
